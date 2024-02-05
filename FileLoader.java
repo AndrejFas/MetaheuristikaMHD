@@ -9,7 +9,8 @@ public class FileLoader {
 
         try {
             reader = new BufferedReader(new FileReader("HranyAll.txt"));
-            String line = reader.readLine();
+            String line;
+            reader.readLine();
             line = reader.readLine();
             int i = 1;
 
@@ -32,7 +33,8 @@ public class FileLoader {
 
         try {
             reader = new BufferedReader(new FileReader("TurnusyAll.csv"));
-            String line = reader.readLine();
+            String line;
+            reader.readLine();
             line = reader.readLine();
 
 
