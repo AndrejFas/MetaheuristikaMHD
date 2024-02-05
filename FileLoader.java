@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class FileLoader {
-    public static boolean loadHrany(ArrayList<Segment> list){
+    public static void loadHrany(ArrayList<Segment> list){
         BufferedReader reader;
 
         try {
             reader = new BufferedReader(new FileReader("HranyAll.txt"));
-            String line0 = reader.readLine();
             String line = reader.readLine();
+            line = reader.readLine();
             int i = 1;
 
             while (line != null) {
@@ -24,6 +24,31 @@ public class FileLoader {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return true;
+
+    }
+
+    public static void loadTurnusy(ArrayList<Turnus> turnuses) {
+        BufferedReader reader;
+
+        try {
+            reader = new BufferedReader(new FileReader("TurnusyAll.csv"));
+            String line = reader.readLine();
+            line = reader.readLine();
+
+
+            while (line != null) {
+                String[] tokens = line.split(";");
+                ArrayList<Integer> segments = new ArrayList<>();
+                for (int i = 3; i < tokens.length; i++) {
+                    segments.add(Integer.parseInt(tokens[i]));
+                }
+                turnuses.add(new Turnus( Integer.parseInt(tokens[0]), tokens[1], Integer.parseInt(tokens[2]), segments));
+                line = reader.readLine();
+            }
+
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
