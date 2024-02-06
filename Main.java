@@ -20,7 +20,7 @@ public class Main {
 //            System.out.printf("%n");
 //        }
         Validator validator = new Validator(turnuses);
-        Heuristic heuristic = new Heuristic(segments.size());
+        Heuristic heuristic = new Heuristic(segments.size(), turnuses);
 
         heuristic.createFirstValidSolution(segments, validator);
 

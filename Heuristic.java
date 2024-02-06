@@ -2,9 +2,11 @@ import java.util.ArrayList;
 
 public class Heuristic {
     private final int[] solution;
+    private final ArrayList<Turnus> turnuses;
 
-    public Heuristic(int _size){
+    public Heuristic(int _size, ArrayList<Turnus> _turnuses){
         solution = new int[_size];
+        turnuses = _turnuses;
     }
 
     public int[] getSolution() {
@@ -14,21 +16,16 @@ public class Heuristic {
     public void createFirstValidSolution(ArrayList<Segment> _segments, Validator _validator){
 
         do {
-            int idMaxCost = -1;
-            int maxCost = 0;
-
-            for (int i = 0; i < _segments.size(); i++) {
-                if(_segments.get(i).getCost() > maxCost && solution[i] == 0){
-                    maxCost = _segments.get(i).getCost();
-                    idMaxCost = i;
+            for (Turnus turnus:turnuses
+            ) {
+                int idTurnus = _validator.validateTurnus(solution, _segments, turnus);
+                if( idTurnus >= 0){
+                    solution[idTurnus] = 1;
+                    break;
                 }
-            }
-
-            if (idMaxCost != -1){
-                solution[idMaxCost] = 1;
             }
         } while (!_validator.validate(solution, _segments));
 
-
     }
+
 }
