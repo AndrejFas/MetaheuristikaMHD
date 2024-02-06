@@ -8,17 +8,15 @@ public class FileLoader {
         BufferedReader reader;
 
         try {
-            reader = new BufferedReader(new FileReader("HranyAll.txt"));
+            reader = new BufferedReader(new FileReader("HranyAll.csv"));
             String line;
             reader.readLine();
             line = reader.readLine();
-            int i = 1;
 
             while (line != null) {
-                String[] tokens = line.split(",");
-                list.add(new Segment(i, Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2])));
+                String[] tokens = line.split(";");
+                list.add(new Segment(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3])));
                 line = reader.readLine();
-                i++;
             }
 
             reader.close();

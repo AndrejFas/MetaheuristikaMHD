@@ -19,5 +19,22 @@ public class Main {
 //            }
 //            System.out.printf("%n");
 //        }
+        Validator validator = new Validator(turnuses);
+        Heuristic heuristic = new Heuristic(segments.size());
+
+        heuristic.createFirstValidSolution(segments, validator);
+
+        validator.validate(heuristic.getSolution(),segments);
+        System.out.println("Prijatelne riesenie:");
+        for (int x:heuristic.getSolution()
+             ) {
+            System.out.print(" " + x);
+        }
+        int cost = 0;
+        for (int i = 0; i < segments.size(); i++) {
+            if (heuristic.getSolution()[i] == 1)
+                cost += segments.get(i).getCost();
+        }
+        System.out.println("\nCelkova cena: " + cost);
     }
 }
