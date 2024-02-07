@@ -19,22 +19,32 @@ public class Main {
 //            }
 //            System.out.printf("%n");
 //        }
+
+        Population population = new Population(segments);
+
         Validator validator = new Validator(turnuses);
-        Heuristic heuristic = new Heuristic(segments.size(), turnuses);
+        Heuristic heuristic = new Heuristic(turnuses);
 
-        heuristic.createFirstValidSolution(segments, validator);
+        heuristic.createFirstValidSolution(segments, validator, population);
+        heuristic.createRestOfThePopulation(segments, validator, population);
 
-        validator.validate(heuristic.getSolution(),segments);
-        System.out.println("Prijatelne riesenie:");
-        for (int x:heuristic.getSolution()
-             ) {
-            System.out.print(" " + x);
+        int t = 0;
+        while(t < 100){
+            t++;
         }
-        int cost = 0;
-        for (int i = 0; i < segments.size(); i++) {
-            if (heuristic.getSolution()[i] == 1)
-                cost += segments.get(i).getCost();
+
+//        validator.validate(population.getPopulation()[0], segments);
+//        System.out.println("Prijatelne riesenie:");
+//        for (int x:population.getPopulation()[0]
+//             ) {
+//            System.out.print(" " + x);
+//        }
+        population.sortPopulation();
+
+        for (int j = 0; j < 10; j++) {
+
+            System.out.println("Celkova cena: " + population.getPopulation().get(j).getCost());
         }
-        System.out.println("\nCelkova cena: " + cost);
+
     }
 }
