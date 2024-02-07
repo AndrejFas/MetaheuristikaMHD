@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 public class Heuristic {
@@ -22,8 +21,8 @@ public class Heuristic {
 
     }
 
-    public void createRestOfThePopulation(ArrayList<Segment> _segments, Validator _validator, Population _population){
-        for (int i = 1; i < 10; i++) {
+    public void createRestOfThePopulation(ArrayList<Segment> _segments, Validator _validator, Population _population, int _velkostPopulacie){
+        for (int i = 1; i < _velkostPopulacie; i++) {
             Solution solution = _population.getPopulation().get(0).getCopy();
 
             for (int j = 0; j < 10; j++) {

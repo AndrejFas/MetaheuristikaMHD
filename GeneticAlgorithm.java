@@ -22,8 +22,12 @@ public class GeneticAlgorithm {
                 children[1].set(i,pair[0].get(i));
             }
         }
-        _heuristic.fixTheSolution(children[0].getSegments(), _validator,children[0]);
-        _heuristic.fixTheSolution(children[1].getSegments(), _validator,children[1]);
+        while (!_validator.validate(children[0], children[0].getSegments())) {
+            _heuristic.fixTheSolution(children[0].getSegments(), _validator, children[0]);
+        }
+        while (!_validator.validate(children[1], children[1].getSegments())) {
+            _heuristic.fixTheSolution(children[1].getSegments(), _validator, children[1]);
+        }
 
         return children;
     }
