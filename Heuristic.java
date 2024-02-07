@@ -17,14 +17,7 @@ public class Heuristic {
         _population.addToPopulationOnIndex(solution, 0);
 
         do {
-            for (Turnus turnus:turnuses
-            ) {
-                int idTurnus = _validator.validateTurnus(_population.getPopulation().get(0), _segments, turnus);
-                if( idTurnus >= 0){
-                    solution.set(idTurnus, 1);
-                    break;
-                }
-            }
+            fixTheSolution(_segments, _validator, solution);
         } while (!_validator.validate(_population.getPopulation().get(0), _segments));
 
     }
@@ -35,21 +28,25 @@ public class Heuristic {
 
             for (int j = 0; j < 10; j++) {
                 int randInt = random.nextInt(solution.length());
-                solution.set(randInt, (solution.get(randInt)+ 1) % 2);
+                solution.set(randInt, 1 - solution.get(randInt));
             }
 
             while (!_validator.validate(solution, _segments)){
-                for (Turnus turnus:turnuses
-                ) {
-                    int idTurnus = _validator.validateTurnus(solution, _segments, turnus);
-                    if( idTurnus >= 0){
-                        solution.set(idTurnus, 1);
-                        break;
-                    }
-                }
+                fixTheSolution(_segments, _validator, solution);
             }
 
             _population.addToPopulationOnIndex(solution, i);
+        }
+    }
+
+    public void fixTheSolution(ArrayList<Segment> _segments, Validator _validator, Solution _solution){
+        for (Turnus turnus:turnuses
+        ) {
+            int idTurnus = _validator.validateTurnus(_solution, _segments, turnus);
+            if( idTurnus >= 0){
+                _solution.set(idTurnus, 1);
+                break;
+            }
         }
     }
 

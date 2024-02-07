@@ -29,7 +29,39 @@ public class Main {
         heuristic.createRestOfThePopulation(segments, validator, population);
 
         int t = 0;
-        while(t < 100){
+        population.sortPopulation();
+        int minHodnota = population.getPopulation().get(0).getCost();
+
+        while(t < 10000){
+
+
+            for (int i = 0; i < 5; i++) {
+                //Parovanie
+                Solution[] pair = GeneticAlgorithm.getPair(population);
+                //Krizenie
+                Solution[] newSolution = GeneticAlgorithm.crossing(pair, heuristic, validator);
+                //Mutacia
+                Solution mutatedSolution1 = GeneticAlgorithm.mutate(newSolution[0], heuristic, validator);
+                Solution mutatedSolution2 = GeneticAlgorithm.mutate(newSolution[1], heuristic, validator);
+                //Selekcia
+                if (mutatedSolution1.getCost() < mutatedSolution2.getCost()){
+                    population.addToPopulation(mutatedSolution1);
+                    if (mutatedSolution1.getCost() < minHodnota){
+                        t = 0;
+                        minHodnota = mutatedSolution1.getCost();
+                    }
+                } else {
+                    population.addToPopulation(mutatedSolution2);
+                    if (mutatedSolution2.getCost() < minHodnota){
+                        t = 0;
+                        minHodnota = mutatedSolution2.getCost();
+                    }
+                }
+            }
+            // Redukcia
+            population.sortPopulation();
+            while(population.getPopulation().size() > 10)
+                population.getPopulation().remove(10);
             t++;
         }
 
@@ -39,7 +71,7 @@ public class Main {
 //             ) {
 //            System.out.print(" " + x);
 //        }
-        population.sortPopulation();
+
 
         for (int j = 0; j < 10; j++) {
 

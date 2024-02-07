@@ -17,6 +17,9 @@ public class Solution implements Comparable<Solution> {
     public int[] getSolution() {
         return solution;
     }
+    public ArrayList<Segment> getSegments(){
+        return segments;
+    }
 
     public int getCost(){
         int cost = 0;
