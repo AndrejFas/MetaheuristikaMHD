@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args){
-        int velkostPopulacie = 20;
+        int velkostPopulacie = 100;
         ArrayList<Segment> segments = new ArrayList<>();
         ArrayList<Turnus> turnuses = new ArrayList<>();
         FileLoader.loadHrany(segments);
@@ -32,6 +32,16 @@ public class Main {
         int t = 0;
         population.sortPopulation();
         int minHodnota = population.getPopulation().get(0).getCost();
+
+
+        for (int j = 0; j < velkostPopulacie; j++) {
+
+            System.out.println("Celkova cena: " + population.getPopulation().get(j).getCost());
+            //for (int i = 0; i < population.getPopulation().get(j).length(); i++) {
+            //    System.out.print(" " + population.getPopulation().get(j).get(i));
+            //}
+            //System.out.println();
+        }
 
         while(t < 1000){
 

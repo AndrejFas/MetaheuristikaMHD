@@ -27,7 +27,7 @@ public class Validator {
 
         for (int i = 0; i < _turnus.getSegments().size(); i++) {
             if(_solution.get(_turnus.getSegments().get(i))== 1){
-                batteryCapacity += _segments.get(_turnus.getSegments().get(i)).getCost() * (chargingSpeed - consumptionSpeed);
+                batteryCapacity += _segments.get(_turnus.getSegments().get(i)).getCost() * chargingSpeed;
                 if (batteryCapacity > 30){
                     batteryCapacity = 30;
                 }
