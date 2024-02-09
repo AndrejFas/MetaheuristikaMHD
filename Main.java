@@ -21,7 +21,7 @@ public class Main {
 //            System.out.printf("%n");
 //        }
 
-        Population population = new Population(segments, velkostPopulacie);
+        Population population = new Population(velkostPopulacie);
 
         Validator validator = new Validator(turnuses);
         Heuristic heuristic = new Heuristic(turnuses);

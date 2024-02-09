@@ -1,19 +1,16 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
 public class Population {
 
     private final ArrayList<Solution> population;
-    private final ArrayList<Segment> segments;
     private final int velkostPopulacie;
 
     private final Random random;
-    public Population(ArrayList<Segment> _segment, int _velkostPopulacie){
+    public Population(int _velkostPopulacie){
         this.random = new Random();
         this.population = new ArrayList<>();
-        this.segments = _segment;
         velkostPopulacie = _velkostPopulacie;
     }
 

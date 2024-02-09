@@ -21,18 +21,20 @@ public class Validator {
     }
 
     public int validateTurnus(Solution _solution, ArrayList<Segment> _segments, Turnus _turnus){
-        int batteryCapacity = 5000;
+        double batteryCapacity = 30;
+        double chargingSpeed = 0.0026;
+        double consumptionSpeed = 0.0023;
 
         for (int i = 0; i < _turnus.getSegments().size(); i++) {
             if(_solution.get(_turnus.getSegments().get(i))== 1){
-                batteryCapacity += _segments.get(_turnus.getSegments().get(i)).getCost();
-                if (batteryCapacity > 5000){
-                    batteryCapacity = 5000;
+                batteryCapacity += _segments.get(_turnus.getSegments().get(i)).getCost() * (chargingSpeed - consumptionSpeed);
+                if (batteryCapacity > 30){
+                    batteryCapacity = 30;
                 }
             }
             else {
-                batteryCapacity -= _segments.get(_turnus.getSegments().get(i)).getCost();
-                if (batteryCapacity <= 0){
+                batteryCapacity -= _segments.get(_turnus.getSegments().get(i)).getCost() * consumptionSpeed;
+                if (batteryCapacity <= 10){
 
                     return _turnus.getSegments().get(i);
                 }
