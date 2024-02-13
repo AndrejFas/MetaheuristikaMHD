@@ -32,7 +32,7 @@ public class Population {
 
     public Solution[] getPair(){
         Solution[] pair = new Solution[2];
-        pair[0] = population.get(0);
+        pair[0] = population.get(random.nextInt(velkostPopulacie-1));
         pair[1] = population.get(random.nextInt(velkostPopulacie-2)+1);
         return pair;
     }

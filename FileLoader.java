@@ -8,14 +8,14 @@ public class FileLoader {
         BufferedReader reader;
 
         try {
-            reader = new BufferedReader(new FileReader("HranyAll.csv"));
+            reader = new BufferedReader(new FileReader("files/A_useky.csv"));
             String line;
             reader.readLine();
             line = reader.readLine();
 
             while (line != null) {
                 String[] tokens = line.split(";");
-                list.add(new Segment(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3])));
+                list.add(new Segment(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]), Integer.parseInt(tokens[4])));
                 line = reader.readLine();
             }
 
@@ -30,7 +30,7 @@ public class FileLoader {
         BufferedReader reader;
 
         try {
-            reader = new BufferedReader(new FileReader("TurnusyAll.csv"));
+            reader = new BufferedReader(new FileReader("files/A_turnusy.csv"));
             String line;
             reader.readLine();
             line = reader.readLine();
@@ -39,10 +39,10 @@ public class FileLoader {
             while (line != null) {
                 String[] tokens = line.split(";");
                 ArrayList<Integer> segments = new ArrayList<>();
-                for (int i = 3; i < tokens.length; i++) {
+                for (int i = 4; i < tokens.length; i++) {
                     segments.add(Integer.parseInt(tokens[i]));
                 }
-                turnuses.add(new Turnus( Integer.parseInt(tokens[0]), tokens[1], Integer.parseInt(tokens[2]), segments));
+                turnuses.add(new Turnus( Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]), tokens[2], Integer.parseInt(tokens[3]), segments));
                 line = reader.readLine();
             }
 

@@ -35,7 +35,10 @@ public class GeneticAlgorithm {
     public static Solution mutate(Solution newSolution, Heuristic _heuristic, Validator _validator) {
         int mutatePoint = random.nextInt(newSolution.length());
         newSolution.set(mutatePoint, 1 - newSolution.get(mutatePoint));
-        _heuristic.fixTheSolution(newSolution.getSegments(), _validator,newSolution);
+        while (!_validator.validate(newSolution, newSolution.getSegments())) {
+            _heuristic.fixTheSolution(newSolution.getSegments(), _validator,newSolution);
+        }
+
         return newSolution;
     }
 }

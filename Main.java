@@ -33,16 +33,6 @@ public class Main {
         population.sortPopulation();
         int minHodnota = population.getPopulation().get(0).getCost();
 
-
-        for (int j = 0; j < velkostPopulacie; j++) {
-
-            System.out.println("Celkova cena: " + population.getPopulation().get(j).getCost());
-            //for (int i = 0; i < population.getPopulation().get(j).length(); i++) {
-            //    System.out.print(" " + population.getPopulation().get(j).get(i));
-            //}
-            //System.out.println();
-        }
-
         while(t < 1000){
 
 
@@ -83,15 +73,17 @@ public class Main {
 
 
 
+        System.out.println("Celkova cena: " + population.getPopulation().get(0).getCost());
+        for (int i = 0; i < population.getPopulation().get(0).length(); i++) {
+            if (population.getPopulation().get(0).get(i) == 1){
+                System.out.print(" " + (i));
+            }
 
-        for (int j = 0; j < velkostPopulacie; j++) {
-
-            System.out.println("Celkova cena: " + population.getPopulation().get(j).getCost());
-            //for (int i = 0; i < population.getPopulation().get(j).length(); i++) {
-            //    System.out.print(" " + population.getPopulation().get(j).get(i));
-            //}
-            //System.out.println();
         }
+        System.out.println();
+
+        //validator.seeValidate(population.getPopulation().get(0), segments);
+
 
     }
 }
