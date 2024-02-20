@@ -8,7 +8,7 @@ public class FileLoader {
         BufferedReader reader;
 
         try {
-            reader = new BufferedReader(new FileReader("files/A_useky.csv"));
+            reader = new BufferedReader(new FileReader("files/B3_useky.csv"));
             String line;
             reader.readLine();
             line = reader.readLine();
@@ -26,11 +26,11 @@ public class FileLoader {
 
     }
 
-    public static void loadTurnusy(ArrayList<Turnus> turnuses) {
+    public static void loadTurnusy(ArrayList<Turnus> turnuses, ArrayList<Segment> _segments) {
         BufferedReader reader;
 
         try {
-            reader = new BufferedReader(new FileReader("files/A_turnusy.csv"));
+            reader = new BufferedReader(new FileReader("files/B3_turnusy.csv"));
             String line;
             reader.readLine();
             line = reader.readLine();
@@ -41,6 +41,7 @@ public class FileLoader {
                 ArrayList<Integer> segments = new ArrayList<>();
                 for (int i = 4; i < tokens.length; i++) {
                     segments.add(Integer.parseInt(tokens[i]));
+                    _segments.get(Integer.parseInt(tokens[i])).increase();
                 }
                 turnuses.add(new Turnus( Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]), tokens[2], Integer.parseInt(tokens[3]), segments));
                 line = reader.readLine();

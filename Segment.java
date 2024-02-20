@@ -1,5 +1,7 @@
 
-public class Segment {
+public class Segment implements Comparable<Segment> {
+
+    private int count;
     private final int index;
     private final int id;
     private final int node1;
@@ -12,6 +14,7 @@ public class Segment {
         this.node1 = _node1;
         this.node2 = _node2;
         this.cost = _cost;
+        this.count = 0;
     }
 
     public int getId() {
@@ -28,5 +31,19 @@ public class Segment {
 
     public int getCost() {
         return cost;
+    }
+
+    public void increase() {
+        count++;
+    }
+
+    public int getCount(){
+        return count;
+    }
+
+    @Override
+    public int compareTo(Segment other) {
+        return Integer.compare(this.getCount(), other.getCount());
+
     }
 }

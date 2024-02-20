@@ -9,6 +9,14 @@ public class Solution implements Comparable<Solution> {
         this.segments = _segments;
     }
 
+    public Solution(Solution _solution){
+        this.solution = new int[_solution.getSegments().size()];
+        this.segments = _solution.getSegments();
+        for (int i = 0; i < this.solution.length; i++) {
+            this.solution[i] = _solution.get(i);
+        }
+    }
+
     public Solution(int[] _solution, ArrayList<Segment> _segments){
         this.solution = _solution;
         this.segments = _segments;

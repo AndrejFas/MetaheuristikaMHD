@@ -21,11 +21,11 @@ public class Validator {
     }
 
     public int validateTurnus(Solution _solution, ArrayList<Segment> _segments, Turnus _turnus){
-        double maxBatteryCapacity = 30;
+        double maxBatteryCapacity = 40;
         double minBatteryCapacity = 10;
         double batteryCapacity = maxBatteryCapacity;
         double chargingSpeed = 0.0026;
-        double consumptionSpeed = 0.0023;
+        double consumptionSpeed = 0.0013;
 
         for (int i = 0; i < _turnus.getSegments().size(); i++) {
             if(_solution.get(_turnus.getSegments().get(i))== 1){
@@ -49,11 +49,10 @@ public class Validator {
 
         for (Turnus turnus:turnuses
         ) {
-            double maxBatteryCapacity = 30;
-            double minBatteryCapacity = 10;
+            double maxBatteryCapacity = 40;
             double batteryCapacity = maxBatteryCapacity;
             double chargingSpeed = 0.0026;
-            double consumptionSpeed = 0.0023;
+            double consumptionSpeed = 0.0013;
 
             for (int i = 0; i < turnus.getSegments().size(); i++) {
                 if(_solution.get(turnus.getSegments().get(i))== 1){

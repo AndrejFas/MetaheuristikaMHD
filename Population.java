@@ -13,6 +13,11 @@ public class Population {
         this.population = new ArrayList<>();
         velkostPopulacie = _velkostPopulacie;
     }
+    public Population(Population _population){
+        this.random = new Random();
+        this.population = _population.getPopulation();
+        velkostPopulacie = _population.velkostPopulacie;
+    }
 
     public ArrayList<Solution> getPopulation() {
         return population;
