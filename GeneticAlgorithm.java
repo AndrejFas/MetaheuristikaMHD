@@ -45,13 +45,13 @@ public class GeneticAlgorithm {
             int usedCost = 999999999;
             // try to decrease the cost
             for (int i = 0; i < potentionalMutatePoint.size(); i++) {
-                if (_newSolution.getSolution()[potentionalMutatePoint.get(i)] == 1 &&
-                        (_newSolution.getSegments().get(_newSolution.get(potentionalMutatePoint.get(i))).getCount() > usedCount ||
-                        _newSolution.getSegments().get(_newSolution.get(potentionalMutatePoint.get(i))).getCount() == usedCount &&
-                                _newSolution.getSegments().get(_newSolution.get(potentionalMutatePoint.get(i))).getCost() < usedCost)){
+                if (_newSolution.get(potentionalMutatePoint.get(i)) == 1 &&
+                        (_newSolution.getSegments().get(potentionalMutatePoint.get(i)).getCount() > usedCount ||
+                        _newSolution.getSegments().get(potentionalMutatePoint.get(i)).getCount() == usedCount &&
+                                _newSolution.getSegments().get(potentionalMutatePoint.get(i)).getCost() < usedCost)){
                     mutatePoint = i;
-                    usedCount = _newSolution.getSegments().get(_newSolution.get(potentionalMutatePoint.get(i))).getCount();
-                    usedCost = _newSolution.getSegments().get(_newSolution.get(potentionalMutatePoint.get(i))).getCost();
+                    usedCount = _newSolution.getSegments().get(potentionalMutatePoint.get(i)).getCount();
+                    usedCost = _newSolution.getSegments().get(potentionalMutatePoint.get(i)).getCost();
                 }
             }
             if (mutatePoint == -1){
@@ -60,7 +60,8 @@ public class GeneticAlgorithm {
             // try if valid
             Solution mutatedSolution = new Solution(_newSolution);
             mutatedSolution.set(potentionalMutatePoint.get(mutatePoint), 0);
-            if (_validator.validate(_newSolution,_newSolution.getSegments())){
+            if (_validator.validate(mutatedSolution,mutatedSolution.getSegments())){
+                _validator.seeValidate(mutatedSolution,mutatedSolution.getSegments());
                 return mutatedSolution;
             }
             else {
@@ -75,13 +76,13 @@ public class GeneticAlgorithm {
         int usedCost = 0;
         // increase the cost
         for (int i = 0; i < potentionalMutatePoint.size(); i++) {
-            if (_newSolution.getSolution()[potentionalMutatePoint.get(i)] == 0 &&
-                    (_newSolution.getSegments().get(_newSolution.get(potentionalMutatePoint.get(i))).getCount() < usedCount ||
-                            _newSolution.getSegments().get(_newSolution.get(potentionalMutatePoint.get(i))).getCount() == usedCount &&
-                                    _newSolution.getSegments().get(_newSolution.get(potentionalMutatePoint.get(i))).getCost() > usedCost)){
+            if (_newSolution.get(potentionalMutatePoint.get(i)) == 0 &&
+                    (_newSolution.getSegments().get(potentionalMutatePoint.get(i)).getCount() < usedCount ||
+                            _newSolution.getSegments().get(potentionalMutatePoint.get(i)).getCount() == usedCount &&
+                                    _newSolution.getSegments().get(potentionalMutatePoint.get(i)).getCost() > usedCost)){
                 mutatePoint = i;
-                usedCount = _newSolution.getSegments().get(_newSolution.get(potentionalMutatePoint.get(i))).getCount();
-                usedCost = _newSolution.getSegments().get(_newSolution.get(potentionalMutatePoint.get(i))).getCost();
+                usedCount = _newSolution.getSegments().get(potentionalMutatePoint.get(i)).getCount();
+                usedCost = _newSolution.getSegments().get(potentionalMutatePoint.get(i)).getCost();
             }
         }
 

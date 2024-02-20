@@ -3,9 +3,12 @@ import java.util.Random;
 
 public class Main {
     public static void main(String[] args){
-        Random random = new Random();
         int velkostPopulacie = 100;
         double mutationProbability = 50;
+        int pocetVykonaniPredUkoncenim = 2000;
+        int pocetPrenesenych = 10;
+
+        Random random = new Random();
         ArrayList<Segment> segments = new ArrayList<>();
         ArrayList<Turnus> turnuses = new ArrayList<>();
         FileLoader.loadHrany(segments);
@@ -38,8 +41,9 @@ public class Main {
         Solution bestSolution = population.getPopulation().get(0);
         int minHodnota = bestSolution.getCost();
 
-        while(t < 2000){
-            for (int i = 0; i < velkostPopulacie / 2; i++) {
+        while(t < pocetVykonaniPredUkoncenim){
+            int i = 0;
+            while ( i < velkostPopulacie) {
                 //Parovanie
                 Solution[] pair = GeneticAlgorithm.getPair(population);
                 //Krizenie
@@ -53,20 +57,35 @@ public class Main {
                 if (random.nextDouble() % 1 < mutationProbability/100){
                     mutatedSolution2 = GeneticAlgorithm.mutate(newSolution[1], validator);
                 }
+                if (!(population.contains(mutatedSolution1) || population.contains(mutatedSolution2))){
+                    validator.seeValidate(mutatedSolution1, mutatedSolution1.getSegments());
+                    validator.seeValidate(mutatedSolution2, mutatedSolution2.getSegments());
+                    newPopulation.addToPopulation(mutatedSolution1);
+                    newPopulation.addToPopulation(mutatedSolution2);
+                    i += 2;
+                }
 
-                newPopulation.addToPopulation(mutatedSolution1);
-                newPopulation.addToPopulation(mutatedSolution2);
             }
 
             newPopulation.sortPopulation();
-            //System.out.println(newPopulation.getPopulation().get(0).getCost() + " < " + minHodnota);
+            if (newPopulation.getPopulation().get(0).getCost() <  minHodnota){
+                System.out.println(t + ") " + newPopulation.getPopulation().get(0).getCost() + " < " + minHodnota);
+            }
+
             if(newPopulation.getPopulation().get(0).getCost() < minHodnota) {
                 bestSolution = new Solution(newPopulation.getPopulation().get(0));
                 minHodnota = bestSolution.getCost();
                 t= 0;
             }
 
+            //for (int j = 0; j < pocetPrenesenych; j++) {
+            //    newPopulation.addToPopulation(new Solution(population.getPopulation().get(j)));
+            //}
             population = new Population(newPopulation);
+            population.sortPopulation();
+            //for (int j = 0; j < pocetPrenesenych; j++) {
+            //    population.removeFromPopulation(population.getPopulation().size()-1);
+            //}
             newPopulation = new Population(velkostPopulacie);
             t++;
 

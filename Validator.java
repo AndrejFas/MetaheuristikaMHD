@@ -51,6 +51,7 @@ public class Validator {
         ) {
             double maxBatteryCapacity = 40;
             double batteryCapacity = maxBatteryCapacity;
+            double minBatteryCapacity = 10;
             double chargingSpeed = 0.0026;
             double consumptionSpeed = 0.0013;
 
@@ -65,7 +66,10 @@ public class Validator {
                     batteryCapacity -= _segments.get(turnus.getSegments().get(i)).getCost() * consumptionSpeed;
 
                 }
-                System.out.println("Battery at " + i + " segment is: " + batteryCapacity);
+                if (batteryCapacity < minBatteryCapacity){
+                    System.out.println("Battery at " + i + " segment is: " + batteryCapacity);
+                }
+
             }
 
         }

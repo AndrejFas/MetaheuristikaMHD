@@ -13,11 +13,12 @@ public class Heuristic {
     public void createFirstValidSolution(ArrayList<Segment> _segments, Validator _validator, Population _population){
 
         Solution solution = new Solution(_segments);
-        _population.addToPopulationOnIndex(solution, 0);
+
 
         do {
             fixTheSolution(_segments, _validator, solution);
-        } while (!_validator.validate(_population.getPopulation().get(0), _segments));
+        } while (!_validator.validate(solution, _segments));
+        _population.addToPopulation(solution);
 
     }
 
@@ -34,7 +35,7 @@ public class Heuristic {
                 fixTheSolution(_segments, _validator, solution);
             }
 
-            _population.addToPopulationOnIndex(solution, i);
+            _population.addToPopulation(solution);
         }
     }
 
