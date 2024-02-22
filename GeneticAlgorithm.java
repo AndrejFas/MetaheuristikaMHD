@@ -9,13 +9,12 @@ public class GeneticAlgorithm {
     }
 
     public static Solution[] crossing(Solution[] pair, Heuristic _heuristic, Validator _validator) {
-        int crossPoint = random.nextInt(pair[0].length());
         Solution[] children = new Solution[2];
         children[0] = new Solution( new int[pair[0].length()], pair[0].getSegments());
         children[1] = new Solution( new int[pair[0].length()], pair[0].getSegments());
 
         for (int i = 0; i < pair[0].length(); i++) {
-            if (i < crossPoint){
+            if ((random.nextDouble() % 1) < 0.5 ){
                 children[0].set(i,pair[0].get(i));
                 children[1].set(i,pair[1].get(i));
             } else {
@@ -71,20 +70,21 @@ public class GeneticAlgorithm {
         }
 
 
-        int mutatePoint = 0;
-        int usedCount = 9999999;
-        int usedCost = 0;
+//        int mutatePoint = 0;
+//        int usedCount = 9999999;
+//        int usedCost = 0;
         // increase the cost
-        for (int i = 0; i < potentionalMutatePoint.size(); i++) {
-            if (_newSolution.get(potentionalMutatePoint.get(i)) == 0 &&
-                    (_newSolution.getSegments().get(potentionalMutatePoint.get(i)).getCount() < usedCount ||
-                            _newSolution.getSegments().get(potentionalMutatePoint.get(i)).getCount() == usedCount &&
-                                    _newSolution.getSegments().get(potentionalMutatePoint.get(i)).getCost() > usedCost)){
-                mutatePoint = i;
-                usedCount = _newSolution.getSegments().get(potentionalMutatePoint.get(i)).getCount();
-                usedCost = _newSolution.getSegments().get(potentionalMutatePoint.get(i)).getCost();
-            }
-        }
+//        for (int i = 0; i < potentionalMutatePoint.size(); i++) {
+//            if (_newSolution.get(potentionalMutatePoint.get(i)) == 0 &&
+//                    (_newSolution.getSegments().get(potentionalMutatePoint.get(i)).getCount() < usedCount ||
+//                            _newSolution.getSegments().get(potentionalMutatePoint.get(i)).getCount() == usedCount &&
+//                                    _newSolution.getSegments().get(potentionalMutatePoint.get(i)).getCost() > usedCost)){
+//                mutatePoint = i;
+//                usedCount = _newSolution.getSegments().get(potentionalMutatePoint.get(i)).getCount();
+//                usedCost = _newSolution.getSegments().get(potentionalMutatePoint.get(i)).getCost();
+//            }
+//        }
+        int mutatePoint = random.nextInt(potentionalMutatePoint.size() - 1);
 
         _newSolution.set(potentionalMutatePoint.get(mutatePoint), 1);
         return _newSolution;

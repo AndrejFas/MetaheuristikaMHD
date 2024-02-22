@@ -4,9 +4,9 @@ import java.util.Random;
 public class Main {
     public static void main(String[] args){
         int velkostPopulacie = 100;
-        double mutationProbability = 50;
-        int pocetVykonaniPredUkoncenim = 2000;
-        int pocetPrenesenych = 10;
+        double mutationProbability = 80;
+        int pocetVykonaniPredUkoncenim = 5000;
+        int pocetPrenesenych = 5;
 
         Random random = new Random();
         ArrayList<Segment> segments = new ArrayList<>();
@@ -78,14 +78,14 @@ public class Main {
                 t= 0;
             }
 
-            //for (int j = 0; j < pocetPrenesenych; j++) {
-            //    newPopulation.addToPopulation(new Solution(population.getPopulation().get(j)));
-            //}
+            for (int j = 0; j < pocetPrenesenych; j++) {
+                newPopulation.addToPopulation(new Solution(population.getPopulation().get(j)));
+            }
             population = new Population(newPopulation);
             population.sortPopulation();
-            //for (int j = 0; j < pocetPrenesenych; j++) {
-            //    population.removeFromPopulation(population.getPopulation().size()-1);
-            //}
+            for (int j = 0; j < pocetPrenesenych; j++) {
+                population.removeFromPopulation(population.getPopulation().size()-1);
+            }
             newPopulation = new Population(velkostPopulacie);
             t++;
 
@@ -98,7 +98,6 @@ public class Main {
             }
 
         }
-        System.out.println();
 
         //validator.seeValidate(population.getPopulation().get(0), segments);
 

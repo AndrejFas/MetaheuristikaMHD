@@ -8,7 +8,7 @@ public class FileLoader {
         BufferedReader reader;
 
         try {
-            reader = new BufferedReader(new FileReader("files/B1_useky.csv"));
+            reader = new BufferedReader(new FileReader("files/B3_useky.csv"));
             String line;
             reader.readLine();
             line = reader.readLine();
@@ -30,7 +30,7 @@ public class FileLoader {
         BufferedReader reader;
 
         try {
-            reader = new BufferedReader(new FileReader("files/B1_turnusy.csv"));
+            reader = new BufferedReader(new FileReader("files/B3_turnusy.csv"));
             String line;
             reader.readLine();
             line = reader.readLine();
