@@ -26,7 +26,7 @@ public class Heuristic {
         for (int i = 1; i < _velkostPopulacie; i++) {
             Solution solution = _population.getPopulation().get(0).getCopy();
 
-            for (int j = 0; j < 20; j++) {
+            for (int j = 0; j < 30; j++) {
                 int randInt = random.nextInt(solution.length());
                 solution.set(randInt, 1 - solution.get(randInt));
             }

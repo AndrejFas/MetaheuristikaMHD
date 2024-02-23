@@ -3,10 +3,10 @@ import java.util.Random;
 
 public class Main {
     public static void main(String[] args){
-        int velkostPopulacie = 100;
+        int velkostPopulacie = 150;
         double mutationProbability = 80;
         int pocetVykonaniPredUkoncenim = 5000;
-        int pocetPrenesenych = 5;
+        int pocetPrenesenych = 15;
 
         Random random = new Random();
         ArrayList<Segment> segments = new ArrayList<>();
