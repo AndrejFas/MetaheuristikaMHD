@@ -5,12 +5,14 @@ public class Main {
     public static void main(String[] args){
         int velkostPopulacie = 150;
         double mutationProbability = 80;
-        int pocetVykonaniPredUkoncenim = 5000;
-        int pocetPrenesenych = 15;
+        int pocetVykonaniPredUkoncenim = 2000;
+        int pocetPrenesenych = velkostPopulacie / 10;
+        double probabilityOfTransfer = (double) 5/10;
 
         Random random = new Random();
         ArrayList<Segment> segments = new ArrayList<>();
         ArrayList<Turnus> turnuses = new ArrayList<>();
+
         FileLoader.loadHrany(segments);
 //        for (Segment s:segments
 //             ) {
@@ -35,11 +37,18 @@ public class Main {
 
         heuristic.createFirstValidSolution(segments, validator, population);
         heuristic.createRestOfThePopulation(segments, validator, population, velkostPopulacie);
-
         int t = 0;
         population.sortPopulation();
+
+        ArrayList<Solution> best10percent = new ArrayList<>();
+        for (int j = 0; j < pocetPrenesenych; j++) {
+            best10percent.add(population.getPopulation().get(j));
+        }
+
         Solution bestSolution = population.getPopulation().get(0);
         int minHodnota = bestSolution.getCost();
+
+        boolean transfer;
 
         while(t < pocetVykonaniPredUkoncenim){
             int i = 0;
@@ -77,14 +86,23 @@ public class Main {
                 minHodnota = bestSolution.getCost();
                 t= 0;
             }
-
-            for (int j = 0; j < pocetPrenesenych; j++) {
-                newPopulation.addToPopulation(new Solution(population.getPopulation().get(j)));
+            transfer = ((t / 100) % 2) == 0 ;
+            if (transfer){
+                for (int j = 0; j < pocetPrenesenych; j++) {
+                    newPopulation.addToPopulation(new Solution(best10percent.get(j)));
+                }
             }
+
             population = new Population(newPopulation);
             population.sortPopulation();
-            for (int j = 0; j < pocetPrenesenych; j++) {
-                population.removeFromPopulation(population.getPopulation().size()-1);
+            if (transfer){
+                ArrayList<Solution> newBest10percent = new ArrayList<>();
+                for (int j = 0; j < pocetPrenesenych; j++) {
+                    population.removeFromPopulation(population.getPopulation().size()-1);
+                    newBest10percent.add(population.getPopulation().get(j));
+                }
+                best10percent = newBest10percent;
+
             }
             newPopulation = new Population(velkostPopulacie);
             t++;

@@ -14,10 +14,10 @@ public class Heuristic {
 
         Solution solution = new Solution(_segments);
 
-
-        do {
-            fixTheSolution(_segments, _validator, solution);
-        } while (!_validator.validate(solution, _segments));
+        boolean needToBeFixed = true;
+        while (needToBeFixed) {
+            needToBeFixed = fixTheSolution(_segments, _validator, solution);
+        }
         _population.addToPopulation(solution);
 
     }
@@ -31,23 +31,48 @@ public class Heuristic {
                 solution.set(randInt, 1 - solution.get(randInt));
             }
 
-            while (!_validator.validate(solution, _segments)){
-                fixTheSolution(_segments, _validator, solution);
+            boolean needToBeFixed = true;
+            while (needToBeFixed){
+                needToBeFixed = fixTheSolution(_segments, _validator, solution);
             }
 
             _population.addToPopulation(solution);
         }
     }
 
-    public void fixTheSolution(ArrayList<Segment> _segments, Validator _validator, Solution _solution){
+    public boolean fixTheSolution(ArrayList<Segment> _segments, Validator _validator, Solution _solution){
         for (Turnus turnus:turnuses
         ) {
-            int idTurnus = _validator.validateTurnus(_solution, _segments, turnus);
-            if( idTurnus >= 0){
-                _solution.set(idTurnus, 1);
-                break;
+            int[] idTurnus = _validator.validateTurnus(_solution, _segments, turnus);
+            if( idTurnus[0] >= 0){
+                if (idTurnus[2] >= 0){
+
+                    if ( _solution.get(idTurnus[2]) != 1 && _segments.get(idTurnus[2]).getCount() > _segments.get(idTurnus[1]).getCount() &&
+                            _segments.get(idTurnus[2]).getCount() > _segments.get(idTurnus[0]).getCount()){
+                        _solution.set(idTurnus[2], 1);
+
+                    } else if ( _solution.get(idTurnus[1]) != 1 && _segments.get(idTurnus[1]).getCount() > _segments.get(idTurnus[0]).getCount() &&
+                            _segments.get(idTurnus[1]).getCount() > _segments.get(idTurnus[2]).getCount()){
+                        _solution.set(idTurnus[1], 1);
+
+                    } else {
+                        _solution.set(idTurnus[0], 1);
+                    }
+
+                } else if (idTurnus[1] >= 0) {
+                    if ( _solution.get(idTurnus[1]) != 1 && _segments.get(idTurnus[1]).getCount() > _segments.get(idTurnus[0]).getCount()){
+                        _solution.set(idTurnus[1], 1);
+
+                    } else {
+                        _solution.set(idTurnus[0], 1);
+                    }
+                } else {
+                    _solution.set(idTurnus[0], 1);
+                }
+                return true;
             }
         }
+        return false;
     }
 
 }

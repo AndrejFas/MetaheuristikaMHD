@@ -7,12 +7,18 @@ public class Validator {
         turnuses = _turnuses;
     }
 
+    private final double maxBatteryCapacity = 40;
+
+    private final double minBatteryCapacity = 10;
+    private final double chargingSpeed = 0.0026;
+    private final double consumptionSpeed = 0.0013;
+
     public boolean validate(Solution _solution, ArrayList<Segment> _segments){
 
         for (Turnus turnus:turnuses
              ) {
-            int idTurnus = validateTurnus(_solution, _segments, turnus);
-            if( idTurnus >= 0){
+            int[] idTurnus = validateTurnus(_solution, _segments, turnus);
+            if( idTurnus[0] >= 0){
                 //System.out.println("Faild to validate turnus " + idTurnus + " (" + turnus.getName() + ")");
                 return false;
             }
@@ -20,12 +26,8 @@ public class Validator {
         return true;
     }
 
-    public int validateTurnus(Solution _solution, ArrayList<Segment> _segments, Turnus _turnus){
-        double maxBatteryCapacity = 40;
-        double minBatteryCapacity = 10;
+    public int[] validateTurnus(Solution _solution, ArrayList<Segment> _segments, Turnus _turnus){
         double batteryCapacity = maxBatteryCapacity;
-        double chargingSpeed = 0.0026;
-        double consumptionSpeed = 0.0013;
 
         for (int i = 0; i < _turnus.getSegments().size(); i++) {
             if(_solution.get(_turnus.getSegments().get(i))== 1){
@@ -37,23 +39,35 @@ public class Validator {
             else {
                 batteryCapacity -= _segments.get(_turnus.getSegments().get(i)).getCost() * consumptionSpeed;
                 if (batteryCapacity <= minBatteryCapacity){
+                    int[] result = new int[3];
 
-                    return _turnus.getSegments().get(i);
+                    result[0] = _turnus.getSegments().get(i);
+
+                    if (i >= 1) {
+                        result[1] = _turnus.getSegments().get(i - 1);
+                    } else {
+                        result[1] = -1;
+                    }
+
+                    if (i >= 2){
+                        result[2] = _turnus.getSegments().get(i-2);
+                    } else {
+                        result[2] = -1;
+                    }
+                    return result;
                 }
             }
         }
-        return -1;
+        int[] result = new int[3];
+        result[0] = -1;
+        return  result;
     }
 
     public boolean seeValidate(Solution _solution, ArrayList<Segment> _segments){
 
         for (Turnus turnus:turnuses
         ) {
-            double maxBatteryCapacity = 40;
             double batteryCapacity = maxBatteryCapacity;
-            double minBatteryCapacity = 10;
-            double chargingSpeed = 0.0026;
-            double consumptionSpeed = 0.0013;
 
             for (int i = 0; i < turnus.getSegments().size(); i++) {
                 if(_solution.get(turnus.getSegments().get(i))== 1){
