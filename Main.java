@@ -15,20 +15,7 @@ public class Main {
         ArrayList<Turnus> turnuses = new ArrayList<>();
 
         FileLoader.loadHrany(segments, problem);
-//        for (Segment s:segments
-//             ) {
-//            System.out.printf("%d %d %d %d %n", s.getId(),s.getCost(), s.getNode1(), s.getNode2() );
-//        }
         FileLoader.loadTurnusy(turnuses, segments, problem);
-//        for (Turnus t:turnuses
-//             ) {
-//            System.out.printf("%d %s %d: ", t.getId(), t.getName(), t.getCount());
-//            for (int i:t.getSegments()
-//                 ) {
-//                System.out.printf("%d ", i);
-//            }
-//            System.out.printf("%n");
-//        }
 
         Population population = new Population(populationSize);
         Population newPopulation = new Population(populationSize);
