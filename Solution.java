@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import java.util.Arrays;
+
 
 public class Solution implements Comparable<Solution> {
     private final int[] solution;
@@ -20,10 +20,6 @@ public class Solution implements Comparable<Solution> {
     public Solution(int[] _solution, ArrayList<Segment> _segments){
         this.solution = _solution;
         this.segments = _segments;
-    }
-
-    public int[] getSolution() {
-        return solution;
     }
     public ArrayList<Segment> getSegments(){
         return segments;
@@ -48,10 +44,6 @@ public class Solution implements Comparable<Solution> {
 
     public void set(int _index, int _value) {
         solution[_index] = _value;
-    }
-
-    public Solution getCopy(){
-        return new Solution(Arrays.copyOf(solution,solution.length), segments);
     }
 
     @Override

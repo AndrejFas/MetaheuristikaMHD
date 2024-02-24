@@ -30,4 +30,8 @@ public class Turnus {
     public ArrayList<Integer> getSegments() {
         return segments;
     }
+
+    public int getIndex() {
+        return index;
+    }
 }

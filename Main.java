@@ -1,24 +1,25 @@
 import java.util.ArrayList;
 import java.util.Random;
 
+
 public class Main {
     public static void main(String[] args){
-        int velkostPopulacie = 150;
+        int populationSize = 150;
         double mutationProbability = 80;
-        int pocetVykonaniPredUkoncenim = 2000;
-        int pocetPrenesenych = velkostPopulacie / 10;
-        double probabilityOfTransfer = (double) 5/10;
+        int numberOfIterationsBeforeEnd = 4500;
+        int transferedCount = populationSize / 10;
+        String problem = "A";
 
         Random random = new Random();
         ArrayList<Segment> segments = new ArrayList<>();
         ArrayList<Turnus> turnuses = new ArrayList<>();
 
-        FileLoader.loadHrany(segments);
+        FileLoader.loadHrany(segments, problem);
 //        for (Segment s:segments
 //             ) {
 //            System.out.printf("%d %d %d %d %n", s.getId(),s.getCost(), s.getNode1(), s.getNode2() );
 //        }
-        FileLoader.loadTurnusy(turnuses, segments);
+        FileLoader.loadTurnusy(turnuses, segments, problem);
 //        for (Turnus t:turnuses
 //             ) {
 //            System.out.printf("%d %s %d: ", t.getId(), t.getName(), t.getCount());
@@ -29,35 +30,31 @@ public class Main {
 //            System.out.printf("%n");
 //        }
 
-        Population population = new Population(velkostPopulacie);
-        Population newPopulation = new Population(velkostPopulacie);
+        Population population = new Population(populationSize);
+        Population newPopulation = new Population(populationSize);
 
         Validator validator = new Validator(turnuses);
         Heuristic heuristic = new Heuristic(turnuses);
 
+        long start = System.currentTimeMillis();
+
         heuristic.createFirstValidSolution(segments, validator, population);
-        heuristic.createRestOfThePopulation(segments, validator, population, velkostPopulacie);
-        int t = 0;
+        heuristic.createRestOfThePopulation(segments, validator, population, populationSize);
+
         population.sortPopulation();
-
-        ArrayList<Solution> best10percent = new ArrayList<>();
-        for (int j = 0; j < pocetPrenesenych; j++) {
-            best10percent.add(population.getPopulation().get(j));
-        }
-
         Solution bestSolution = population.getPopulation().get(0);
         int minHodnota = bestSolution.getCost();
-
         boolean transfer;
+        int t = 0;
 
-        while(t < pocetVykonaniPredUkoncenim){
+        while(t < numberOfIterationsBeforeEnd){
             int i = 0;
-            while ( i < velkostPopulacie) {
-                //Parovanie
+            while ( i < populationSize) {
+                // Parovanie
                 Solution[] pair = GeneticAlgorithm.getPair(population);
-                //Krizenie
+                // Krizenie
                 Solution[] newSolution = GeneticAlgorithm.crossing(pair, heuristic, validator);
-                //Mutacia
+                // Mutacia
                 Solution mutatedSolution1 = newSolution[0];
                 Solution mutatedSolution2 = newSolution[1];
                 if (random.nextDouble() % 1 < mutationProbability/100){
@@ -69,56 +66,77 @@ public class Main {
                 if (!(population.contains(mutatedSolution1) || population.contains(mutatedSolution2))){
                     validator.seeValidate(mutatedSolution1, mutatedSolution1.getSegments());
                     validator.seeValidate(mutatedSolution2, mutatedSolution2.getSegments());
+
                     newPopulation.addToPopulation(mutatedSolution1);
+                    if (mutatedSolution1.getCost() < minHodnota){
+                        System.out.println("Iteracia: " + t + ", cena najlepsieho riesenia: " + mutatedSolution1.getCost());
+                        bestSolution = new Solution(mutatedSolution1);
+                        minHodnota = bestSolution.getCost();
+                        t= 0;
+                    }
                     newPopulation.addToPopulation(mutatedSolution2);
+                    if (mutatedSolution2.getCost() < minHodnota){
+                        System.out.println("Iteracia: " + t + ", cena najlepsieho riesenia: " + mutatedSolution2.getCost());
+                        bestSolution = new Solution(mutatedSolution2);
+                        minHodnota = bestSolution.getCost();
+                        t= 0;
+                    }
                     i += 2;
                 }
 
             }
-
-            newPopulation.sortPopulation();
-            if (newPopulation.getPopulation().get(0).getCost() <  minHodnota){
-                System.out.println(t + ") " + newPopulation.getPopulation().get(0).getCost() + " < " + minHodnota);
-            }
-
-            if(newPopulation.getPopulation().get(0).getCost() < minHodnota) {
-                bestSolution = new Solution(newPopulation.getPopulation().get(0));
-                minHodnota = bestSolution.getCost();
-                t= 0;
-            }
-            transfer = ((t / 100) % 2) == 0 ;
+            // Aktualizacia populacie
+            transfer = ((t / 1500) % 2) == 0 ;
             if (transfer){
-                for (int j = 0; j < pocetPrenesenych; j++) {
-                    newPopulation.addToPopulation(new Solution(best10percent.get(j)));
+                for (int j = 0; j < transferedCount; j++) {
+                    newPopulation.addToPopulation(new Solution(population.getPopulation().get(j)));
                 }
             }
 
             population = new Population(newPopulation);
             population.sortPopulation();
-            if (transfer){
-                ArrayList<Solution> newBest10percent = new ArrayList<>();
-                for (int j = 0; j < pocetPrenesenych; j++) {
-                    population.removeFromPopulation(population.getPopulation().size()-1);
-                    newBest10percent.add(population.getPopulation().get(j));
-                }
-                best10percent = newBest10percent;
 
+            if (transfer){
+                for (int j = 0; j < transferedCount; j++) {
+                    population.removeFromPopulation(population.getPopulation().size()-1);
+                }
             }
-            newPopulation = new Population(velkostPopulacie);
+            newPopulation = new Population(populationSize);
             t++;
 
         }
 
-        System.out.println("Celkova cena: " + bestSolution.getCost());
+        long end = System.currentTimeMillis() - start;
+
+        ArrayList<Stop> stops = new ArrayList<>();
+        FileLoader.loadStops(stops);
+
+        System.out.println("Cena najdeneho riesenia: " + bestSolution.getCost());
+        System.out.println("Cas vypoctu: " + (double)end/1000);
         for (int i = 0; i < bestSolution.length(); i++) {
-            if (population.getPopulation().get(0).get(i) == 1){
-                System.out.print(" " + (i));
+
+            if (bestSolution.get(i) == 1){
+                int[] stopsId =  segments.get(i).getNodes();
+                String firstStop = "";
+                String secondStop = "";
+                for (Stop stop: stops
+                     ) {
+                    if (stop.getId() == stopsId[0]){
+                        firstStop = stop.getName();
+                    }
+                    if (stop.getId() == stopsId[1]){
+                        secondStop = stop.getName();
+                    }
+                    if (!firstStop.equals("") && !secondStop.equals("")){
+                        break;
+                    }
+                }
+                System.out.println(segments.get(i).getIndex() + ": " + firstStop + " --> " + secondStop + " (" + segments.get(i).getCost() + ")");
             }
 
         }
 
         //validator.seeValidate(population.getPopulation().get(0), segments);
-
 
     }
 }

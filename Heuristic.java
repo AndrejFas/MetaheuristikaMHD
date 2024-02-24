@@ -24,7 +24,7 @@ public class Heuristic {
 
     public void createRestOfThePopulation(ArrayList<Segment> _segments, Validator _validator, Population _population, int _velkostPopulacie){
         for (int i = 1; i < _velkostPopulacie; i++) {
-            Solution solution = _population.getPopulation().get(0).getCopy();
+            Solution solution = new Solution(_population.getPopulation().get(0));
 
             for (int j = 0; j < 30; j++) {
                 int randInt = random.nextInt(solution.length());

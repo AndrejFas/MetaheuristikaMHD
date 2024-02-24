@@ -63,7 +63,7 @@ public class Validator {
         return  result;
     }
 
-    public boolean seeValidate(Solution _solution, ArrayList<Segment> _segments){
+    public void seeValidate(Solution _solution, ArrayList<Segment> _segments){
 
         for (Turnus turnus:turnuses
         ) {
@@ -87,7 +87,7 @@ public class Validator {
             }
 
         }
-        return true;
+
     }
 
 }
