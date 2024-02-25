@@ -45,10 +45,10 @@ public class Main {
                 Solution mutatedSolution1 = newSolution[0];
                 Solution mutatedSolution2 = newSolution[1];
                 if (random.nextDouble() % 1 < mutationProbability/100){
-                    mutatedSolution1 = GeneticAlgorithm.mutate(newSolution[0], validator);
+                    mutatedSolution1 = GeneticAlgorithm.mutate(newSolution[0], validator, random);
                 }
                 if (random.nextDouble() % 1 < mutationProbability/100){
-                    mutatedSolution2 = GeneticAlgorithm.mutate(newSolution[1], validator);
+                    mutatedSolution2 = GeneticAlgorithm.mutate(newSolution[1], validator, random);
                 }
                 if (!(population.contains(mutatedSolution1) || population.contains(mutatedSolution2))){
                     validator.seeValidate(mutatedSolution1, mutatedSolution1.getSegments());
@@ -98,7 +98,7 @@ public class Main {
         ArrayList<Stop> stops = new ArrayList<>();
         FileLoader.loadStops(stops);
 
-        System.out.println("Cena najdeneho riesenia: " + bestSolution.getCost());
+        System.out.println("\nCena najdeneho riesenia: " + bestSolution.getCost());
         System.out.println("Cas vypoctu: " + (double)end/1000);
         for (int i = 0; i < bestSolution.length(); i++) {
 
