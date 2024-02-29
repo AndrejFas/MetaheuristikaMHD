@@ -39,7 +39,10 @@ public class Segment implements Comparable<Segment> {
 
     @Override
     public int compareTo(Segment other) {
-        return Integer.compare(this.getCount(), other.getCount());
+        if (this.getCount() != other.getCount()){
+            return this.count - other.getCount();
+        }
+        return other.getCost() - this.getCost();
 
     }
     public int getIndex() {

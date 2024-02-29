@@ -34,13 +34,14 @@ public class GeneticAlgorithm {
         return children;
     }
 
-    public static Solution mutate(Solution _newSolution, Validator _validator, Random _random) {
+    public static Solution mutate(Solution _newSolution, Validator _validator) {
 
         ArrayList<Integer> potentionalMutatePoint = new ArrayList<>();
         for (int i = 0; i < _newSolution.length(); i++) {
             potentionalMutatePoint.add(i);
         }
-        if (_random.nextBoolean()){
+        boolean wasModified = false;
+        if (random.nextBoolean()){
             while (true){
                 int mutatePoint = -1;
                 int usedCount = 999999999;
@@ -63,8 +64,9 @@ public class GeneticAlgorithm {
                 Solution mutatedSolution = new Solution(_newSolution);
                 mutatedSolution.set(potentionalMutatePoint.get(mutatePoint), 0);
                 if (_validator.validate(mutatedSolution,mutatedSolution.getSegments())){
-                    _validator.seeValidate(mutatedSolution,mutatedSolution.getSegments());
-                    return mutatedSolution;
+
+                    _newSolution = mutatedSolution;
+                    wasModified = true;
                 }
                 else {
                     potentionalMutatePoint.remove(mutatePoint);
@@ -73,9 +75,12 @@ public class GeneticAlgorithm {
             }
         }
 
-        int mutatePoint = random.nextInt(potentionalMutatePoint.size());
-
-        _newSolution.set(potentionalMutatePoint.get(mutatePoint), 1);
+        if (!wasModified){
+            for (int i = 0; i < potentionalMutatePoint.size()/20; i++) {
+                int mutatePoint = random.nextInt(potentionalMutatePoint.size());
+                _newSolution.set(potentionalMutatePoint.get(mutatePoint), 1);
+            }
+        }
         return _newSolution;
     }
 }
