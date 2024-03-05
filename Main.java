@@ -84,7 +84,7 @@ public class Main {
 
     }
     public static int calculate(int _populationSize, double _mutationProbability, int _numberOfIterationsBeforeEnd, double _transferedCount){
-        int result = -1;
+        int result;
         long transferedCount = Math.round(_populationSize * _transferedCount);
         String problem = "C1";
 
