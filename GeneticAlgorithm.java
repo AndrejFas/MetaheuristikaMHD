@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import java.util.LinkedList;
+
 import java.util.Random;
 
 public class GeneticAlgorithm {
@@ -36,7 +36,6 @@ public class GeneticAlgorithm {
     }
 
     public static Solution mutate(Solution _newSolution, Validator _validator) {
-        long start = System.currentTimeMillis();
 
         ArrayList<Integer> potentionalMutatePoint = new ArrayList<>();
         for (int i = 0; i < _newSolution.length(); i++) {
@@ -73,7 +72,7 @@ public class GeneticAlgorithm {
                 else {
                     potentionalMutatePoint.remove(mutatePoint);
                 }
-                if (System.currentTimeMillis() - start > 2)break;
+
 
             }
         }
@@ -84,10 +83,7 @@ public class GeneticAlgorithm {
                 _newSolution.set(potentionalMutatePoint.get(mutatePoint), 1);
             }
         }
-        long end = System.currentTimeMillis() - start;
-        if (end > 3){
-            System.out.println("Mutacie " + (double)end/1000 + " " + wasModified) ;
-        }
+
         return _newSolution;
     }
 

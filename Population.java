@@ -59,22 +59,4 @@ public class Population {
         pair[1] = population.get(index2);
         return pair;
     }
-
-    public boolean contains (Solution _solution){
-        for (Solution existingSolution:population
-             ) {
-            boolean match = true;
-            for (int i = 0; i < existingSolution.length(); i++) {
-                if (existingSolution.get(i) != _solution.get(i)){
-                    match = false;
-                }
-            }
-            if (match){
-                return true;
-            }
-        }
-        return false;
-    }
-
-
 }

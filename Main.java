@@ -10,10 +10,10 @@ public class Main {
         double[] iterAvg = new double[iteratios.length];
         for (int j = 0; j < iteratios.length; j++) {
             int sum = 0;
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 5; i++) {
                 sum += calculate(150, 0.8, iteratios[j], 0.1);
             }
-            iterAvg[j] = (double) sum / 10;
+            iterAvg[j] = (double) sum / 5;
         }
         int newIteration = iteratios[0];
         double bestAvg = iterAvg[0];
@@ -29,10 +29,10 @@ public class Main {
         double[] popAvg = new double[populatios.length];
         for (int j = 0; j < populatios.length; j++) {
             int sum = 0;
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 5; i++) {
                 sum += calculate(populatios[j], 0.8, newIteration, 0.1);
             }
-            popAvg[j] = (double) sum / 10;
+            popAvg[j] = (double) sum / 5;
         }
         int newPopulation = populatios[0];
         bestAvg = popAvg[0];
@@ -48,10 +48,10 @@ public class Main {
         double[] mutaAvg = new double[mutations.length];
         for (int j = 0; j < mutations.length; j++) {
             int sum = 0;
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 5; i++) {
                 sum += calculate(newPopulation, mutations[j], newIteration, 0.1);
             }
-            mutaAvg[j] = (double) sum / 10;
+            mutaAvg[j] = (double) sum / 5;
         }
         double newMutations = mutations[0];
         bestAvg = mutaAvg[0];
@@ -67,10 +67,10 @@ public class Main {
         double[] tranAvg = new double[transfers.length];
         for (int j = 0; j < transfers.length; j++) {
             int sum = 0;
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 5; i++) {
                 sum += calculate(newPopulation, newMutations, newIteration, transfers[j]);
             }
-            tranAvg[j] = (double) sum / 10;
+            tranAvg[j] = (double) sum / 5;
         }
         double newTransfer = transfers[0];
         bestAvg = tranAvg[0];
