@@ -4,10 +4,6 @@ import java.util.Random;
 public class Main {
 
     public static void main(String[] args){
-//        for (int i = 0; i < 3; i++) {
-//            calculate(400, 0.8, 9000, 0.25);
-//        }
-
 
         //==========Iteracie==================================================
         int[] iteratios = new int[] {1500,3000,4500,6000,7500,9000};
@@ -27,57 +23,60 @@ public class Main {
                 bestAvg = iterAvg[i];
             }
         }
+        System.out.println("Best iteration count: " + newIteration);
         //==========Populacia==================================================
         int[] populatios = new int[] {50,100,150,200,250,300,400};
-        double[] popAvg = new double[iteratios.length];
-        for (int j = 0; j < iteratios.length; j++) {
+        double[] popAvg = new double[populatios.length];
+        for (int j = 0; j < populatios.length; j++) {
             int sum = 0;
             for (int i = 0; i < 10; i++) {
                 sum += calculate(populatios[j], 0.8, newIteration, 0.1);
             }
             popAvg[j] = (double) sum / 10;
         }
-        int newPopulation = iteratios[0];
+        int newPopulation = populatios[0];
         bestAvg = popAvg[0];
         for (int i = 1; i < popAvg.length; i++) {
             if (popAvg[i] < bestAvg){
-                newPopulation = iteratios[i];
+                newPopulation = populatios[i];
                 bestAvg = popAvg[i];
             }
         }
+        System.out.println("Best population count: " + newPopulation);
         //==========Mutacia==================================================
         double[] mutations = new double[] {0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1};
-        double[] mutaAvg = new double[iteratios.length];
-        for (int j = 0; j < iteratios.length; j++) {
+        double[] mutaAvg = new double[mutations.length];
+        for (int j = 0; j < mutations.length; j++) {
             int sum = 0;
             for (int i = 0; i < 10; i++) {
                 sum += calculate(newPopulation, mutations[j], newIteration, 0.1);
             }
             mutaAvg[j] = (double) sum / 10;
         }
-        double newMutations = iteratios[0];
+        double newMutations = mutations[0];
         bestAvg = mutaAvg[0];
         for (int i = 1; i < mutaAvg.length; i++) {
             if (mutaAvg[i] < bestAvg){
-                newMutations = iteratios[i];
+                newMutations = mutations[i];
                 bestAvg = mutaAvg[i];
             }
         }
+        System.out.println("Best mutation probability: " + newMutations);
         //==========Prenos==================================================
         double[] transfers = new double[] {0,0.05,0.10,0.15,0.20,0.25,0.50};
-        double[] tranAvg = new double[iteratios.length];
-        for (int j = 0; j < iteratios.length; j++) {
+        double[] tranAvg = new double[transfers.length];
+        for (int j = 0; j < transfers.length; j++) {
             int sum = 0;
             for (int i = 0; i < 10; i++) {
                 sum += calculate(newPopulation, newMutations, newIteration, transfers[j]);
             }
             tranAvg[j] = (double) sum / 10;
         }
-        int newTransfer = iteratios[0];
+        double newTransfer = transfers[0];
         bestAvg = tranAvg[0];
         for (int i = 1; i < tranAvg.length; i++) {
             if (tranAvg[i] < bestAvg){
-                newIteration = iteratios[i];
+                newTransfer = transfers[i];
                 bestAvg = tranAvg[i];
             }
         }
@@ -134,7 +133,7 @@ public class Main {
                     if (random.nextDouble() % 1 < _mutationProbability){
                         mutatedSolution1 = GeneticAlgorithm.mutate(newSolution[0], validator);
                     }
-                    if (!population.contains(mutatedSolution1)){
+                    //if (!population.contains(mutatedSolution1)){
                         newPopulation.addToPopulation(mutatedSolution1);
                         if (mutatedSolution1.getCost() < minHodnota){
                             //System.out.printf("Iteracia: %4d, cena: %d%n", t, mutatedSolution1.getCost());
@@ -143,7 +142,7 @@ public class Main {
                             t= 0;
                         }
                         i++;
-                    }
+                    //}
 
                 }
 
@@ -162,7 +161,7 @@ public class Main {
                     if (random.nextDouble() % 1 < _mutationProbability){
                         mutatedSolution2 = GeneticAlgorithm.mutate(newSolution[1], validator);
                     }
-                    if (!population.contains(mutatedSolution2)){
+                    //if (!population.contains(mutatedSolution2)){
                         newPopulation.addToPopulation(mutatedSolution2);
                         if (mutatedSolution2.getCost() < minHodnota){
                             //System.out.printf("Iteracia: %4d, cena: %d%n", t, mutatedSolution2.getCost());
@@ -171,7 +170,7 @@ public class Main {
                             t= 0;
                         }
                         i++;
-                    }
+                    //}
                 }
 
 
