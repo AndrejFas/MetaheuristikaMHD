@@ -83,4 +83,36 @@ public class GeneticAlgorithm {
         }
         return _newSolution;
     }
+    public static Solution mutate2(Solution _newSolution, Validator _validator) {
+        ArrayList<Integer> potentionalMutatePointOne = new ArrayList<>();
+        ArrayList<Integer> potentionalMutatePointZero = new ArrayList<>();
+        for (int i = 0; i < _newSolution.length(); i++) {
+            if (_newSolution.get(i) == 0){
+                potentionalMutatePointZero.add(i);
+            } else {
+                potentionalMutatePointOne.add(i);
+            }
+        }
+
+        if (random.nextBoolean()){
+            while (true){
+                if (potentionalMutatePointOne.size() == 0){
+                    break;
+                }
+
+                int mutatePoint = random.nextInt(potentionalMutatePointOne.size());
+                // try if valid
+                Solution mutatedSolution = new Solution(_newSolution);
+                mutatedSolution.set(potentionalMutatePointOne.get(mutatePoint), 0);
+                if (_validator.validate(mutatedSolution,mutatedSolution.getSegments())){
+                    return mutatedSolution;
+                }
+                else {
+                    potentionalMutatePointOne.remove(mutatePoint);
+                }
+            }
+        }
+        _newSolution.set(potentionalMutatePointZero.get(random.nextInt(potentionalMutatePointZero.size())),1 );
+        return _newSolution;
+    }
 }
