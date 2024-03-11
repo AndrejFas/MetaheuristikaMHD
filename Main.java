@@ -1,17 +1,38 @@
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 public class Main {
 
     public static void main(String[] args){
 
+        //calculate(150, 0.6, 3000, 0.15, null);
+
+        solveAll();
+
+        //findParameters();
+    }
+
+    public static void solveAll(){
+        String[] names = new String[] {"B1", "B2", "B3", "B4", "T1", "T2", "T3", "T4", "C1", "C2", "C3", "A"};
+        for (int j = 0; j < names.length; j++) {
+            int sum = 0;
+            for (int i = 0; i < 10; i++) {
+                sum += calculate(200, 0.8, 4500, 0.1, names[j]);
+            }
+            System.out.println("Average value for " + names[j] + " is: " + (double)sum/10);
+            System.out.println("==========================================================");
+        }
+    }
+
+    public static void findParameters(){
         //==========Iteracie==================================================
         int[] iteratios = new int[] {1500,3000,4500,6000,7500,9000};
         double[] iterAvg = new double[iteratios.length];
         for (int j = 0; j < iteratios.length; j++) {
             int sum = 0;
             for (int i = 0; i < 5; i++) {
-                sum += calculate(150, 0.8, iteratios[j], 0.1);
+                sum += calculate(150, 0.6, iteratios[j], 0.1, null);
             }
             iterAvg[j] = (double) sum / 5;
         }
@@ -30,7 +51,7 @@ public class Main {
         for (int j = 0; j < populatios.length; j++) {
             int sum = 0;
             for (int i = 0; i < 5; i++) {
-                sum += calculate(populatios[j], 0.8, newIteration, 0.1);
+                sum += calculate(populatios[j], 0.8, newIteration, 0.1, null);
             }
             popAvg[j] = (double) sum / 5;
         }
@@ -49,7 +70,7 @@ public class Main {
         for (int j = 0; j < mutations.length; j++) {
             int sum = 0;
             for (int i = 0; i < 5; i++) {
-                sum += calculate(newPopulation, mutations[j], newIteration, 0.1);
+                sum += calculate(newPopulation, mutations[j], newIteration, 0.1, null);
             }
             mutaAvg[j] = (double) sum / 5;
         }
@@ -68,7 +89,7 @@ public class Main {
         for (int j = 0; j < transfers.length; j++) {
             int sum = 0;
             for (int i = 0; i < 5; i++) {
-                sum += calculate(newPopulation, newMutations, newIteration, transfers[j]);
+                sum += calculate(newPopulation, newMutations, newIteration, transfers[j], null);
             }
             tranAvg[j] = (double) sum / 5;
         }
@@ -81,12 +102,13 @@ public class Main {
             }
         }
         System.out.println(newMutations + " " + newIteration + " " + newTransfer + " " + newPopulation);
-
     }
-    public static int calculate(int _populationSize, double _mutationProbability, int _numberOfIterationsBeforeEnd, double _transferedCount){
+    public static int calculate(int _populationSize, double _mutationProbability, int _numberOfIterationsBeforeEnd, double _transferedCount, String _problemName){
         int result;
         long transferedCount = Math.round(_populationSize * _transferedCount);
-        String problem = "C1";
+        String problem;
+        problem = Objects.requireNonNullElse(_problemName, "A");
+
 
         Random random = new Random();
         ArrayList<Segment> segments = new ArrayList<>();
@@ -104,6 +126,7 @@ public class Main {
         long start = System.currentTimeMillis();
 
         heuristic.createFirstValidSolution(segments, validator, population);
+        //System.out.println("First solution cost: " + population.getPopulation().get(0).getCost());
         heuristic.createRestOfThePopulation(segments, validator, population, _populationSize);
 
         population.sortPopulation();
@@ -125,7 +148,6 @@ public class Main {
                     minHodnota = bestSolution.getCost();
                     t= 0;
                     newPopulation.addToPopulation(newSolution[0]);
-                    i++;
                 }
                 else {
                     // Mutacia
@@ -133,7 +155,7 @@ public class Main {
                     if (random.nextDouble() % 1 < _mutationProbability){
                         mutatedSolution1 = GeneticAlgorithm.mutate(newSolution[0], validator);
                     }
-                    //if (!population.contains(mutatedSolution1)){
+
                         newPopulation.addToPopulation(mutatedSolution1);
                         if (mutatedSolution1.getCost() < minHodnota){
                             //System.out.printf("Iteracia: %4d, cena: %d%n", t, mutatedSolution1.getCost());
@@ -141,10 +163,10 @@ public class Main {
                             minHodnota = bestSolution.getCost();
                             t= 0;
                         }
-                        i++;
-                    //}
+
 
                 }
+                i++;
 
                 if (newSolution[1].getCost() < minHodnota){
                     //System.out.printf("Iteracia: %4d, cena: %d%n", t, newSolution[1].getCost());
@@ -152,7 +174,6 @@ public class Main {
                     minHodnota = bestSolution.getCost();
                     t= 0;
                     newPopulation.addToPopulation(newSolution[1]);
-                    i++;
                 }
                 else {
                     // Mutacia
@@ -161,19 +182,17 @@ public class Main {
                     if (random.nextDouble() % 1 < _mutationProbability){
                         mutatedSolution2 = GeneticAlgorithm.mutate(newSolution[1], validator);
                     }
-                    //if (!population.contains(mutatedSolution2)){
-                        newPopulation.addToPopulation(mutatedSolution2);
-                        if (mutatedSolution2.getCost() < minHodnota){
-                            //System.out.printf("Iteracia: %4d, cena: %d%n", t, mutatedSolution2.getCost());
-                            bestSolution = new Solution(mutatedSolution2);
-                            minHodnota = bestSolution.getCost();
-                            t= 0;
-                        }
-                        i++;
-                    //}
+
+                    newPopulation.addToPopulation(mutatedSolution2);
+                    if (mutatedSolution2.getCost() < minHodnota){
+                        //System.out.printf("Iteracia: %4d, cena: %d%n", t, mutatedSolution2.getCost());
+                        bestSolution = new Solution(mutatedSolution2);
+                        minHodnota = bestSolution.getCost();
+                        t= 0;
+                    }
+
                 }
-
-
+                i++;
 
 
             }
@@ -223,7 +242,7 @@ public class Main {
                         break;
                     }
                 }
-                //System.out.println(segments.get(i).getIndex() + ": " + firstStop + " --> " + secondStop + " (" + segments.get(i).getCost() + ")");
+                System.out.println(segments.get(i).getIndex() + ": " + firstStop + " --> " + secondStop + " (" + segments.get(i).getCost() + ")");
             }
 
         }

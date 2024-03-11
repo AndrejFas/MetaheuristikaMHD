@@ -7,11 +7,11 @@ public class Validator {
         turnuses = _turnuses;
     }
 
-    private final double maxBatteryCapacity = 40;
+    private final double maxBatteryCapacity = 30;
 
     private final double minBatteryCapacity = 10;
     private final double chargingSpeed = 0.0026;
-    private final double consumptionSpeed = 0.0013;
+    private final double consumptionSpeed = 0.0023;
 
     public boolean validate(Solution _solution, ArrayList<Segment> _segments){
 
